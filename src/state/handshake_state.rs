@@ -525,6 +525,16 @@ impl<P: Pattern, R: RoleMarker, C: Cipher, D: DH, H: Hash> HandshakeState<P, R, 
         }
     }
 
+    /// Returns the peer's static public key once the handshake has it: a
+    /// pre-message, or after reading the message that carries it.
+    ///
+    /// Lets a party check that key before it sends anything further, for
+    /// example before an `XX` initiator sends its own static key in the
+    /// third message to a responder it doesn't recognise.
+    pub fn remote_static_pk(&self) -> Option<Vec<u8>> {
+        self.keys.rs.as_ref().map(D::pubkey_bytes)
+    }
+
     /// Reads and processes the next handshake message from `message`,
     /// decrypting its payload into `payload_buffer`.
     /// 
