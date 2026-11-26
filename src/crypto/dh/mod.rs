@@ -8,6 +8,7 @@ use rand_core::{Rng, CryptoRng};
 use crate::error::NoiseError;
 
 pub mod x25519;
+#[cfg(feature = "x448")]
 pub mod x448;
 
 /// A DH keypair.

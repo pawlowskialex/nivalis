@@ -14,11 +14,17 @@ version = "0.3.2"
 edition = "2024"
 rust-version = "1.85"
 
+[features]
+default = ["x448"]
+# The X448 DH (crypto::dh::x448). Its crate, cx448, builds on the previous
+# generation of the RustCrypto traits (rand_core 0.6, elliptic-curve 0.13).
+x448 = ["dep:cx448"]
+
 [dependencies]
 aes-gcm = { version = "0.11.0", default-features = false, features = ["aes", "alloc", "zeroize"] }
 blake2 = { version = "0.11.0-rc.6", default-features = false }
 chacha20poly1305 = { version = "0.11.0", default-features = false, features = ["alloc", "zeroize"] }
-cx448 = { version = "0.1.1", default-features = false , features = ["zeroize"] }
+cx448 = { version = "0.1.1", default-features = false , features = ["zeroize"], optional = true }
 hmac = { version = "0.13", default-features = false }
 rand_core = { version = "0.10.1", default-features = false }
 sha2 = { version = "0.11", default-features = false }
@@ -45,3 +51,8 @@ path = "examples/xx.rs"
 [[example]]
 name = "ikpsk2"
 path = "examples/ikpsk2.rs"
+
+# the test vectors include X448's
+[[test]]
+name = "vectors"
+required-features = ["x448"]
